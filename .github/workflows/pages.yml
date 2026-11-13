@@ -1,0 +1,77 @@
+name: Publish Behind Enemy Lines
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Helldivers_Behind_Enemy_Lines_v*.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out archived releases
+        uses: actions/checkout@v6
+
+      - name: Extract latest complete browser build
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          releases=(Helldivers_Behind_Enemy_Lines_v*.zip)
+          if (( ${#releases[@]} == 0 )); then
+            echo "::error::Upload a complete Helldivers_Behind_Enemy_Lines_v*.zip to the repository root first."
+            exit 1
+          fi
+          latest="$(printf '%s\n' "${releases[@]}" | sort -V | tail -n 1)"
+          echo "Publishing release: $latest"
+          mkdir -p _unpacked _site
+          unzip -q "$latest" -d _unpacked
+          browser_index="$(find _unpacked -type f -path '*/browser-demo/index.html' -print -quit)"
+          if [[ -z "$browser_index" ]]; then
+            echo "::error::The ZIP does not contain browser-demo/index.html."
+            exit 1
+          fi
+          game_root="$(dirname "$(dirname "$browser_index")")"
+          for asset_dir in art audio browser-demo; do
+            if [[ ! -d "$game_root/$asset_dir" ]]; then
+              echo "::error::Missing $asset_dir directory in the complete release ZIP."
+              exit 1
+            fi
+            cp -a "$game_root/$asset_dir" _site/
+          done
+          printf '%s\n' \
+            '<!doctype html>' \
+            '<html lang="en"><head><meta charset="utf-8">' \
+            '<meta name="viewport" content="width=device-width, initial-scale=1">' \
+            '<meta http-equiv="refresh" content="0; url=./browser-demo/index.html">' \
+            '<title>Behind Enemy Lines</title></head>' \
+            '<body><a href="./browser-demo/index.html">Play Behind Enemy Lines</a></body></html>' \
+            > _site/index.html
+          touch _site/.nojekyll
+          test -f _site/browser-demo/index.html
+          echo "Browser game staged successfully."
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static game
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy browser game
+        id: deployment
+        uses: actions/deploy-pages@v4
