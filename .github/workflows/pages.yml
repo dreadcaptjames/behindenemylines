@@ -4,12 +4,13 @@ on:
     branches: [main]
     paths:
       - 'Helldivers_Behind_Enemy_Lines_v*.zip'
+      - 'release-parts/**'
       - 'mobile/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -26,6 +27,35 @@ jobs:
     steps:
       - name: Check out archived releases
         uses: actions/checkout@v6
+
+      - name: Verify and restore v1.0.4 complete release
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -d release-parts/v1.0.4 ]]; then
+            archive="Helldivers_Behind_Enemy_Lines_v1.0.4.zip"
+            expected_sha="1e192552c658addc22cc767eb168543c3366839a44fae50c23450e4b07d08662"
+            if [[ ! -f "$archive" ]]; then
+              shopt -s nullglob
+              parts=(release-parts/v1.0.4/part*.bin)
+              if (( ${#parts[@]} != 20 )); then
+                echo "::error::Expected 20 v1.0.4 archive parts, found ${#parts[@]}."
+                exit 1
+              fi
+              cat "${parts[@]}" > "$archive"
+            fi
+            echo "$expected_sha  $archive" | sha256sum -c -
+            unzip -tq "$archive"
+            if ! git ls-files --error-unmatch "$archive" >/dev/null 2>&1; then
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add "$archive"
+              git commit -m "Archive complete Behind Enemy Lines v1.0.4"
+              if ! git push origin HEAD:main; then
+                echo "::warning::The complete ZIP was staged for deployment but could not be committed back to main. All 20 archived parts remain in GitHub."
+              fi
+            fi
+          fi
 
       - name: Extract latest complete browser build
         shell: bash
