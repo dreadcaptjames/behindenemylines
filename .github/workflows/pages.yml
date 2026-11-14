@@ -80,9 +80,9 @@ jobs:
           content = page.read_text(encoding="utf-8")
           css = '<link rel="stylesheet" href="../mobile/touch-controls.css">'
           js = '<script src="../mobile/touch-controls.js"></script>'
-          if css not in content:
+          if '../mobile/touch-controls.css' not in content:
               content = content.replace("</head>", css + "\n</head>", 1)
-          if js not in content:
+          if '../mobile/touch-controls.js' not in content:
               content = content.replace("</body>", js + "\n</body>", 1)
           page.write_text(content, encoding="utf-8")
           PY
