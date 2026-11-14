@@ -1,33 +1,39 @@
 # HELLDIVERS: BEHIND ENEMY LINES
 
-An unofficial fan-made, pixel-art side-scrolling Metroidvania prototype.
+An unofficial, fan-made, pixel-art side-scrolling Metroidvania prototype.
 
-## Play in your browser
+## Play online
 
-Once the latest complete release ZIP is uploaded and **GitHub Pages → Source → GitHub Actions** is enabled, the playable browser game will be published at:
+Once GitHub Pages publishes the latest workflow build, open:
 
 **https://dreadcaptjames.github.io/behindenemylines/**
 
-The [GitHub Actions workflow](.github/workflows/pages.yml) automatically extracts the browser build, artwork, and audio from the newest complete release ZIP. The original ZIP stays in the repository as an **archive of the entire release**, including the editable Godot source.
+Use **Settings → Pages → Source: GitHub Actions**. The workflow is **Publish Behind Enemy Lines** in the Actions tab. A green check indicates the deployment job completed.
 
-## How to add a release
+## Mobile touch controls
 
-1. Download the complete release ZIP from the ChatGPT development conversation.
-2. In this repository, choose **Add file → Upload files**.
-3. Upload the ZIP to the **repository root** without changing its filename, e.g. `Helldivers_Behind_Enemy_Lines_v1.0.1.zip`.
-4. Commit to `main`. GitHub Actions will prepare the latest ZIP for GitHub Pages.
-5. Under **Settings → Pages**, choose **GitHub Actions** as the publishing source if it is not already selected.
+Touch-capable browsers now have a responsive dual-thumb control layer, supplied from the versioned files in [mobile/](mobile/):
 
-The workflow deliberately never overwrites an older release. Each release is preserved as its own ZIP and Git commit.
+- Left directional pad — move and enter Stratagem codes
+- Right circular pad — drag to aim and fire simultaneously
+- Jump, Dive, Use
+- Reload, Stratagem, EMP, Map, Pause
+- Deploy, Continue, and Resume Checkpoint buttons
 
-## Repository organization
+For phone play, rotate to landscape. Tablet landscape provides more room. The **TOUCH ON/OFF** button hides the touch UI if you have a keyboard or gamepad.
 
-- `.github/workflows/pages.yml`: unpack and deploy the latest complete release ZIP
-- `Helldivers_Behind_Enemy_Lines_v*.zip`: archived playable builds, Godot source, art and audio
-- `README.md`: setup and release instructions
+Keyboard, mouse, and gamepad controls remain available.
 
-## Important
+## Release archive and deployment
 
-This is an **unofficial fan project**, not affiliated with or endorsed by Arrowhead Game Studios or Sony Interactive Entertainment. Helldivers and its associated intellectual property belong to their respective owners. Publishing a fan game publicly may require permission from the rights holders.
+The repository preserves each full game ZIP (including art, audio, Godot source, and browser demo), and keeps independent touch control source files. The current archived base is **v1.0.1**; the mobile touch-control overlay is committed separately. A complete **v1.0.2** ZIP can also be uploaded to archive this milestone.
 
-**Current repository state:** deployment workflow prepared. Upload a complete game ZIP before the site can be played.
+The [Pages workflow](.github/workflows/pages.yml) chooses the highest version-numbered `Helldivers_Behind_Enemy_Lines_v*.zip`, extracts `browser-demo/`, `art/`, and `audio/`, and includes `mobile/` from this repository. It creates a playable root `index.html` that forwards to the game.
+
+To archive a future full release: upload its ZIP **unchanged** to the repository root, commit to `main`, and check [Actions](../../actions).
+
+If the site shows this README rather than the game, switch **Settings → Pages → Source** to **GitHub Actions**, then manually run **Publish Behind Enemy Lines** from the Actions tab.
+
+## Copyright
+
+This is an unofficial fan project, not affiliated with Arrowhead Game Studios or Sony Interactive Entertainment. Helldivers names and setting are protected intellectual property; public distribution may require permission from the rights holders.
