@@ -64,11 +64,16 @@ jobs:
             > _site/index.html
           touch _site/.nojekyll
           test -f _site/browser-demo/index.html
-          # Mobile controls live as editable source files alongside the release ZIP.
-          # Older ZIP archives remain unmodified and fully recoverable.
-          if [[ -f mobile/touch-controls.js && -f mobile/touch-controls.css ]]; then
+          # New releases carry their own matching mobile control files.
+          # For older archives only, retain the repository-level mobile fallback.
+          if [[ -d "$game_root/mobile" ]]; then
+            cp -a "$game_root/mobile" _site/mobile
+          elif [[ -f mobile/touch-controls.js && -f mobile/touch-controls.css ]]; then
             mkdir -p _site/mobile
             cp mobile/touch-controls.js mobile/touch-controls.css _site/mobile/
+          fi
+          if [[ -f _site/mobile/touch-controls.js && -f _site/mobile/touch-controls.css ]]; then
+            # Patch references only for old releases that predate bundled controls.
             python3 - <<'PY'
           from pathlib import Path
           page = Path("_site/browser-demo/index.html")
@@ -79,10 +84,6 @@ jobs:
               content = content.replace("</head>", css + "\n</head>", 1)
           if js not in content:
               content = content.replace("</body>", js + "\n</body>", 1)
-          content = content.replace("v1.0.1", "v1.0.2").replace("BUILD 1.0.1", "BUILD 1.0.2")
-          desktop_hint = "panel('WASD MOVE  •  MOUSE FIRE  •  SPACE JUMP  •  E USE',35,76)"
-          mobile_hint = "panel(document.body.classList.contains('bel-touch-on')?'D-PAD MOVE  •  AIM + FIRE  •  JUMP  •  USE':'WASD MOVE  •  MOUSE FIRE  •  SPACE JUMP  •  E USE',35,76)"
-          content = content.replace(desktop_hint, mobile_hint)
           page.write_text(content, encoding="utf-8")
           PY
           fi
