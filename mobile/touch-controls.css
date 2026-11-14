@@ -1,0 +1,61 @@
+/* Behind Enemy Lines — mobile controls */
+#belTouchToggle{display:none}
+body.bel-touch-capable #belTouchToggle{display:inline-block;padding:7px 9px;border:1px solid #ad8d45;background:#21172d;color:#ffe395;border-radius:5px;font:bold 10px system-ui}
+body.bel-touch-on{justify-content:flex-start;gap:4px;padding:4px 0;overscroll-behavior:contain}
+body.bel-touch-on header{width:min(99vw,1120px);gap:5px;justify-content:center;flex-wrap:wrap}
+body.bel-touch-on header>span{display:none}
+body.bel-touch-on #shell{width:min(98vw,calc((100dvh - 48px)*16/9),1120px);touch-action:none}
+body.bel-touch-on #game{touch-action:none;cursor:default}
+body.bel-touch-on footer{display:none}
+#belTouchControls{position:absolute;inset:0;pointer-events:none;z-index:8;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+#belTouchControls[hidden],#belTouchControls [hidden],#belTouchTools[hidden]{display:none!important}
+#belTouchControls button{appearance:none;border:2px solid #f5cc76ad;border-radius:10px;color:#ffe9ad;background:#191225cf;font:bold 12px system-ui;touch-action:none;pointer-events:auto;box-shadow:0 2px 10px #0008;-webkit-tap-highlight-color:transparent}
+#belTouchControls button.pressed,#belTouchTools button.pressed{background:#e8b849!important;color:#201429!important;transform:scale(.97)}
+#belTouchTools{display:flex;gap:4px;align-items:center}
+#belTouchTools button{min-width:40px;height:29px;padding:0 5px;border:1px solid #a88c4d;background:#21182b;color:#ffe3a3;border-radius:5px;font:bold 10px system-ui;touch-action:none}
+#belTouchTools .locked{opacity:.38}
+#belTouchDpad{position:absolute;bottom:5px;left:max(6px,env(safe-area-inset-left));display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);gap:3px;width:clamp(106px,16vw,165px);height:clamp(106px,16vw,165px);pointer-events:none}
+#belTouchDpad button{font-size:clamp(17px,2vw,25px)}
+#belTouchDpad [data-key="arrowup"]{grid-area:1/2}
+#belTouchDpad [data-key="arrowleft"]{grid-area:2/1}
+#belTouchDpad [data-key="arrowright"]{grid-area:2/3}
+#belTouchDpad [data-key="arrowdown"]{grid-area:3/2}
+#belTouchDpad .center{grid-area:2/2;border-radius:8px;background:#161021b0;color:#ddc18d;border:1px solid #be9e4255;display:grid;place-items:center;text-align:center;font:bold 8px monospace}
+#belTouchActions{position:absolute;bottom:calc(clamp(110px,16vw,165px) + 11px);right:max(9px,env(safe-area-inset-right));display:flex;gap:5px;pointer-events:none}
+#belTouchActions button{min-width:clamp(48px,6vw,70px);height:clamp(41px,5vw,58px);padding:0 5px}
+#belTouchActions [data-key="jump"]{background:#d6ac46;color:#170c1c}
+#belTouchActions [data-key="interact"]{background:#25605b;border-color:#8de6d2}
+#belTouchActions [data-key="dive"]{background:#394056}
+#belTouchAim{position:absolute;bottom:5px;right:max(9px,env(safe-area-inset-right));width:clamp(110px,16vw,165px);height:clamp(110px,16vw,165px);border:2px solid #e76f61;border-radius:50%;background:radial-gradient(circle,#592334b8,#1c1428df);box-shadow:0 0 22px #fa685525 inset;pointer-events:auto;touch-action:none;-webkit-tap-highlight-color:transparent}
+#belTouchAim .ring{position:absolute;inset:17%;border:1px dashed #e8a27c77;border-radius:50%}
+#belTouchKnob{position:absolute;left:33%;top:33%;width:34%;height:34%;border:2px solid #ffd38b;background:#d3534eba;border-radius:50%;box-shadow:0 0 10px #e45d51b7}
+#belTouchAim .caption{position:absolute;bottom:10%;left:0;right:0;text-align:center;color:#ffdfb1;font:bold 10px system-ui}
+#belTouchAim.aiming{border-color:#ffda76}
+#belTouchStage{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+#belTouchStage button{min-width:150px;min-height:50px;background:#63442dea;border-color:#ffdc6c;font-size:15px;padding:7px 12px}
+#belTouchStage button.alt{min-height:41px;font-size:11px;background:#1b353ddc;border-color:#87dbd7}
+#belTouchStrat{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);color:#ffd781;background:#1b1230df;padding:5px 10px;border:1px solid #b79947;border-radius:6px;font:bold 11px system-ui;white-space:nowrap}
+#belTouchRotate{display:none;position:absolute;top:3px;left:50%;transform:translateX(-50%);padding:5px 8px;background:#120d22dd;color:#ffdf91;font:bold 9px system-ui;border-radius:4px;white-space:nowrap}
+@media(max-width:900px) and (orientation:landscape){
+ body.bel-touch-on header{height:29px}
+ body.bel-touch-on #shell{width:min(99vw,calc((100dvh - 39px)*16/9))}
+ #belTouchTools button{height:27px;min-width:39px;font-size:9px;padding:0 3px}
+ #belTouchDpad{width:116px;height:116px}
+ #belTouchAim{width:119px;height:119px}
+ #belTouchActions{bottom:125px}
+ #belTouchActions button{height:42px;min-width:49px}
+}
+@media(max-width:700px) and (orientation:portrait){
+ body.bel-touch-on #shell{width:100vw}
+ #belTouchTools{flex-wrap:wrap;justify-content:center}
+ #belTouchTools button{height:27px;font-size:9px}
+ #belTouchDpad{width:77px;height:77px;gap:1px}
+ #belTouchDpad button{font-size:12px;border-radius:5px}
+ #belTouchAim{width:82px;height:82px}
+ #belTouchAim .caption{font-size:7px}
+ #belTouchActions{bottom:88px}
+ #belTouchActions button{height:35px;min-width:43px;font-size:9px}
+ #belTouchRotate{display:block}
+ #belTouchStage button{min-height:42px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){#belTouchControls button{transition:none}}
