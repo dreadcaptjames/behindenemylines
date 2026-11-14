@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'Helldivers_Behind_Enemy_Lines_v*.zip'
+      - 'mobile/**'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -62,6 +64,28 @@ jobs:
             > _site/index.html
           touch _site/.nojekyll
           test -f _site/browser-demo/index.html
+          # Mobile controls live as editable source files alongside the release ZIP.
+          # Older ZIP archives remain unmodified and fully recoverable.
+          if [[ -f mobile/touch-controls.js && -f mobile/touch-controls.css ]]; then
+            mkdir -p _site/mobile
+            cp mobile/touch-controls.js mobile/touch-controls.css _site/mobile/
+            python3 - <<'PY'
+          from pathlib import Path
+          page = Path("_site/browser-demo/index.html")
+          content = page.read_text(encoding="utf-8")
+          css = '<link rel="stylesheet" href="../mobile/touch-controls.css">'
+          js = '<script src="../mobile/touch-controls.js"></script>'
+          if css not in content:
+              content = content.replace("</head>", css + "\n</head>", 1)
+          if js not in content:
+              content = content.replace("</body>", js + "\n</body>", 1)
+          content = content.replace("v1.0.1", "v1.0.2").replace("BUILD 1.0.1", "BUILD 1.0.2")
+          desktop_hint = "panel('WASD MOVE  •  MOUSE FIRE  •  SPACE JUMP  •  E USE',35,76)"
+          mobile_hint = "panel(document.body.classList.contains('bel-touch-on')?'D-PAD MOVE  •  AIM + FIRE  •  JUMP  •  USE':'WASD MOVE  •  MOUSE FIRE  •  SPACE JUMP  •  E USE',35,76)"
+          content = content.replace(desktop_hint, mobile_hint)
+          page.write_text(content, encoding="utf-8")
+          PY
+          fi
           echo "Browser game staged successfully."
 
       - name: Configure GitHub Pages
