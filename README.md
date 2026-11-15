@@ -1,39 +1,38 @@
 # HELLDIVERS: BEHIND ENEMY LINES
 
-An unofficial, fan-made, pixel-art side-scrolling Metroidvania prototype.
+**An unofficial, fan-made, pixel-art action adventure set in the HELLDIVERS universe.**
 
-## Play online
+*Behind Enemy Lines* is a cinematic, side-scrolling Metroidvania about a lone Helldiver fighting through an Automaton-held colony. What begins as a military operation becomes a search for the people left behind, uncovering encrypted transmissions, abandoned installations, and the truth buried beneath the surface.
 
-Once GitHub Pages publishes the latest workflow build, open:
+## Operation Dead Signal
 
-**https://dreadcaptjames.github.io/behindenemylines/**
+The colony has gone quiet. Automaton forces occupy its industrial corridors, communications are fractured, and distress signals point to something still alive deep underground.
 
-Use **Settings → Pages → Source: GitHub Actions**. The workflow is **Publish Behind Enemy Lines** in the Actions tab. A green check indicates the deployment job completed.
+As the Helldiver, you push through enemy patrols, restore critical systems, penetrate fortified facilities, and follow the trail of survivors. Radio transmissions from Super Earth, hostile machines, and the colony's inhabitants build a story that unfolds alongside the mission.
 
-## Mobile touch controls
+## The Game
 
-Touch-capable browsers now have a responsive dual-thumb control layer, supplied from the versioned files in [mobile/](mobile/):
+- **Eight connected environments across three acts**, from ruined surface infrastructure and secret archives to the Blacksite, reactor, freight tunnels, flooded pumpworks, and Shelter Twelve.
+- **Fast, responsive side-scrolling combat** featuring rifle aiming, tactical dives, jumps, support abilities, and increasingly dangerous Automatons.
+- **Exploration and progression** built around branching routes, mission objectives, environmental hazards, collectibles, checkpoints, and persistent saves.
+- **Distinctive pixel-art presentation** with layered industrial scenery, animated machinery, atmospheric lighting, and expressive 16-bit-style radio portraits.
+- **Cinematic storytelling** through intercepted signals, mission-control communications, environmental details, and encounters with formidable Automaton commanders.
+- **Desktop and mobile browser play**, with customizable touch controls, controller support, and accessibility and performance settings.
 
-- Left directional pad — move and enter Stratagem codes
-- Right circular pad — drag to aim and fire simultaneously
-- Jump, Dive, Use
-- Reload, Stratagem, EMP, Map, Pause
-- Deploy, Continue, and Resume Checkpoint buttons
+## Original Soundtrack
 
-For phone play, rotate to landscape. Tablet landscape provides more room. The **TOUCH ON/OFF** button hides the touch UI if you have a keyboard or gamepad.
+Three original compositions give the campaign its musical identity:
 
-Keyboard, mouse, and gamepad controls remain available.
+- **Cup of Liber-tea** — the continuous theme for exploration and regular combat.
+- **By Order of High Command** — music for the Warden and Reactor Sentinel encounters.
+- **Liberty Day** — the title-screen and mission-victory theme.
 
-## Release archive and deployment
+## Play
 
-The repository preserves each full game ZIP (including art, audio, Godot source, and browser demo), and keeps independent touch control source files. The current archived base is **v1.0.1**; the mobile touch-control overlay is committed separately. A complete **v1.0.2** ZIP can also be uploaded to archive this milestone.
+**[Play Behind Enemy Lines in your browser](https://dreadcaptjames.github.io/behindenemylines/)**
 
-The [Pages workflow](.github/workflows/pages.yml) chooses the highest version-numbered `Helldivers_Behind_Enemy_Lines_v*.zip`, extracts `browser-demo/`, `art/`, and `audio/`, and includes `mobile/` from this repository. It creates a playable root `index.html` that forwards to the game.
+The browser campaign is the primary playable version. The repository also preserves complete release archives and an earlier Godot companion prototype.
 
-To archive a future full release: upload its ZIP **unchanged** to the repository root, commit to `main`, and check [Actions](../../actions).
+---
 
-If the site shows this README rather than the game, switch **Settings → Pages → Source** to **GitHub Actions**, then manually run **Publish Behind Enemy Lines** from the Actions tab.
-
-## Copyright
-
-This is an unofficial fan project, not affiliated with Arrowhead Game Studios or Sony Interactive Entertainment. Helldivers names and setting are protected intellectual property; public distribution may require permission from the rights holders.
+*HE​​LLDIVERS: Behind Enemy Lines* is an independent, unofficial fan project and is not affiliated with or endorsed by Arrowhead Game Studios or Sony Interactive Entertainment. HELLDIVERS and related names, designs, and setting belong to their respective rights holders.
